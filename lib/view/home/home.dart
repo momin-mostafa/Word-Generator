@@ -11,23 +11,50 @@ class MyHomePage extends StatelessWidget {
         title: const Text("Demo"),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
+          physics: const BouncingScrollPhysics(),
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+            Column(
+              children: [
+                Container(
+                  height: 300,
+                  color: Colors.red,
+                  child: Center(
+                    child: Consumer<HomeProvider>(
+                      builder: ((context, provider, child) =>
+                          Text("${provider.favourite}")),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            Consumer<HomeProvider>(
-                builder: ((context, provider, child) => Text(
-                      '${provider.counter}',
-                      style: Theme.of(context).textTheme.headline4,
-                    )))
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: 10,
+              itemBuilder: ((context, index) => ListTile(
+                    title: Consumer<HomeProvider>(
+                      builder: ((context, provider, child) {
+                        // String word = Word
+                        return Card(
+                          child: ListTile(
+                            leading: Container(
+                              width: MediaQuery.of(context).size.width / 3,
+                            ),
+                            title: Text("$index"),
+                            onTap: () => Provider.of<HomeProvider>(context,
+                                    listen: false)
+                                .addToFavourite(index),
+                          ),
+                        );
+                      }),
+                    ),
+                  )),
+            )
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed:
-            Provider.of<HomeProvider>(context, listen: false).incrementCounter,
+        onPressed: Provider.of<HomeProvider>(context, listen: false).debug,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),

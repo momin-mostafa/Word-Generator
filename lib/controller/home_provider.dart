@@ -10,8 +10,10 @@ class HomeProvider extends ChangeNotifier {
 
   debug() {
     if (kDebugMode) {
+      favourite = [];
       print("App Debug ==> ${favourite.length}");
       print(favourite);
     }
+    notifyListeners();
   }
 }

@@ -11,7 +11,6 @@ class HomeProvider extends ChangeNotifier {
     List temp = [];
     var response =
         await http.get(Uri.parse('https://random-word-api.herokuapp.com/all'));
-    print(response.body);
     for (var element in jsonDecode(response.body)) {
       temp.add(element);
     }

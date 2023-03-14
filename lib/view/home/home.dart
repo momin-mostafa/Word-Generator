@@ -54,31 +54,33 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           Consumer<HomeProvider>(
             builder: ((context, provider, child) {
-              return ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                // physics: const BouncingScrollPhysics(),
-                shrinkWrap: true,
-                // primary: false,
-                itemCount: 100,
-                itemBuilder: ((context, index) => ListTile(
-                        title: Card(
-                      color: Colors.deepPurple[200],
-                      child: ListTile(
-                        title: Text("${provider.word[index]}"),
-                        onTap: () =>
-                            Provider.of<HomeProvider>(context, listen: false)
-                                .addToFavourite(provider.word[index]),
-                      ),
-                    ))),
-              );
+              return provider.word.isEmpty
+                  ? const CircularProgressIndicator.adaptive()
+                  : ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      // physics: const BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      // primary: false,
+                      itemCount: 300,
+                      itemBuilder: ((context, index) => ListTile(
+                              title: Card(
+                            color: Colors.deepPurple[200],
+                            child: ListTile(
+                              title: Text("${provider.word[index]}"),
+                              onTap: () => Provider.of<HomeProvider>(context,
+                                      listen: false)
+                                  .addToFavourite(provider.word[index]),
+                            ),
+                          ))),
+                    );
             }),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: Provider.of<HomeProvider>(context, listen: false).debug,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        tooltip: 'Reset',
+        child: const Icon(Icons.restore),
       ),
     );
   }
